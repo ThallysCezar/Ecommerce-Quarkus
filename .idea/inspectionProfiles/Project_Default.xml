@@ -1,0 +1,16 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="MicroProfilePropertiesUnknown" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="excludeList">
+        <list>
+          <option value="*/mp-rest/providers/*/priority" />
+          <option value="mp.openapi.schema.*" />
+          <option value="kafka-streams.*" />
+          <option value="camel.*" />
+          <option value="quarkus.datasource.*" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
