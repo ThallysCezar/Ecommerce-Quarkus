@@ -36,18 +36,7 @@ public class CartService {
         }
 
         Optional<CartItem> existingItem = cartRepository.findByProductId(productId);
-        if (existingItem.isPresent()) {
-            CartItem item = existingItem.get();
-            item.setQuantity(item.getQuantity() + quantity);
-            cartRepository.persist(item);
-            return item;
-        } else {
-            CartItem newItem = new CartItem();
-            newItem.setProductId(productId);  // Certifique-se de que o productId está sendo setado aqui
-            newItem.setQuantity(quantity);    // Certifique-se de que a quantidade está sendo setada aqui
-            cartRepository.persist(newItem);
-            return newItem;
-        }
+        return existingItem.map(cartItem -> updateExistingItem(cartItem, quantity)).orElseGet(() -> createNewItem(productId, quantity));
     }
 
     @Transactional
@@ -65,11 +54,27 @@ public class CartService {
     }
 
     @Transactional
-    public void removeItem(Long itemId) {
+    public boolean removeItem(Long itemId) {
         CartItem item = cartRepository.findById(itemId);
         if (item != null) {
             cartRepository.delete(item);
+            return true;
         }
+        return false;
+    }
+
+    private CartItem updateExistingItem(CartItem item, int quantity) {
+        item.setQuantity(item.getQuantity() + quantity);
+        cartRepository.persistAndFlush(item);
+        return item;
+    }
+
+    private CartItem createNewItem(Long productId, int quantity) {
+        CartItem newItem = new CartItem();
+        newItem.setProductId(productId);
+        newItem.setQuantity(quantity);
+        cartRepository.persistAndFlush(newItem);
+        return newItem;
     }
 
 }
