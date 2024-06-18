@@ -2,7 +2,9 @@ package dev.thallys.ms.carrinho.service;
 
 import dev.thallys.ms.carrinho.dto.ProdutoDTO;
 import dev.thallys.ms.carrinho.entity.CartItem;
+import dev.thallys.ms.carrinho.entity.UserCart;
 import dev.thallys.ms.carrinho.repository.CartRepository;
+import dev.thallys.ms.carrinho.repository.UserCartRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -11,12 +13,16 @@ import org.jboss.logging.Logger;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @ApplicationScoped
 public class CartService {
 
     @Inject
     CartRepository cartRepository;
+
+    @Inject
+    UserCartRepository userRepository;
 
     @Inject
     @RestClient
@@ -29,14 +35,21 @@ public class CartService {
     }
 
     @Transactional
-    public CartItem addItem(Long productId, int quantity) {
-        ProdutoDTO produto = produtoClient.getProdutoById(productId);
-        if (produto == null) {
-            throw new IllegalArgumentException("Produto não encontrado");
+    public CartItem addItem(Set<Long> productIds, int quantity, Long usuarioId) {
+        for (Long productId : productIds) {
+            ProdutoDTO produto = produtoClient.getProdutoById(productId);
+            if (produto == null) {
+                throw new IllegalArgumentException("Produto com ID " + productId + " não encontrado");
+            }
         }
 
-        Optional<CartItem> existingItem = cartRepository.findByProductId(productId);
-        return existingItem.map(cartItem -> updateExistingItem(cartItem, quantity)).orElseGet(() -> createNewItem(productId, quantity));
+        UserCart user = userRepository.findById(usuarioId);
+        if (user == null) {
+            throw new IllegalArgumentException("Usuário não encontrado");
+        }
+
+        Optional<CartItem> existingItem = cartRepository.findByProductIdsAndUserId(productIds, usuarioId);
+        return existingItem.map(cartItem -> updateExistingItem(cartItem, quantity)).orElseGet(() -> createNewItem(productIds, quantity, user));
     }
 
     @Transactional
@@ -69,11 +82,12 @@ public class CartService {
         return item;
     }
 
-    private CartItem createNewItem(Long productId, int quantity) {
+    private CartItem createNewItem(Set<Long> productIds, int quantity, UserCart user) {
         CartItem newItem = new CartItem();
-        newItem.setProductId(productId);
+        newItem.setProductIds(productIds);
         newItem.setQuantity(quantity);
-        cartRepository.persistAndFlush(newItem);
+        newItem.setUser(user);
+        newItem.persist();
         return newItem;
     }
 

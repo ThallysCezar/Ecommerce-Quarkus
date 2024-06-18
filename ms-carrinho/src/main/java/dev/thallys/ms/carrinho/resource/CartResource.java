@@ -7,7 +7,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 import java.net.URI;
 import java.util.List;
@@ -28,10 +27,9 @@ public class CartResource {
 
     @POST
     @Path("/add")
-    public Response addItem(@RequestBody CartItemDTO cartItemDTO) {
-        CartItem cartItem = cartService.addItem(cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-        URI createdUri = URI.create("/carts/" + cartItem.getId());
-        return Response.created(createdUri).entity(cartItem).build();
+    public Response addItem(CartItemDTO cartItemDTO) {
+        CartItem cartItem = cartService.addItem(cartItemDTO.getProductIds(), cartItemDTO.getQuantity(), cartItemDTO.getUsuarioId());
+        return Response.created(URI.create("/carts/" + cartItem.getId())).build();
     }
 
     @PUT

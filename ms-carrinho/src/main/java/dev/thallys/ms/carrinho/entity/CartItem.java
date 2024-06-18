@@ -1,10 +1,10 @@
 package dev.thallys.ms.carrinho.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class CartItem extends PanacheEntityBase {
@@ -12,19 +12,36 @@ public class CartItem extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long productId;
+
+    @ManyToOne
+    @JoinColumn(name = "usercart_id", nullable = false)
+    private UserCart usercart;
+
+    @ElementCollection
+    @CollectionTable(name = "cart_item_product_ids", joinColumns = @JoinColumn(name = "cartitem_id"))
+    @Column(name = "product_id")
+    private Set<Long> productIds = new HashSet<>();
     private int quantity;
 
     public CartItem() {
     }
 
-    public CartItem(Long id, Long productId, int quantity) {
+    public CartItem(Long id, UserCart usercart, Set<Long> productIds, int quantity) {
         this.id = id;
-        this.productId = productId;
+        this.usercart = usercart;
+        this.productIds = productIds;
         this.quantity = quantity;
     }
 
     public CartItem(Long productId, int quantity) {
+    }
+
+    public UserCart getUser() {
+        return usercart;
+    }
+
+    public void setUser(UserCart usercart) {
+        this.usercart = usercart;
     }
 
     public Long getId() {
@@ -35,12 +52,12 @@ public class CartItem extends PanacheEntityBase {
         this.id = id;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Set<Long> getProductIds() {
+        return productIds;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProductIds(Set<Long> productIds) {
+        this.productIds = productIds;
     }
 
     public int getQuantity() {
@@ -55,7 +72,8 @@ public class CartItem extends PanacheEntityBase {
     public String toString() {
         return "CartItem{" +
                 "id=" + id +
-                ", productId=" + productId +
+                ", usercart=" + usercart +
+                ", productIds=" + productIds +
                 ", quantity=" + quantity +
                 '}';
     }
