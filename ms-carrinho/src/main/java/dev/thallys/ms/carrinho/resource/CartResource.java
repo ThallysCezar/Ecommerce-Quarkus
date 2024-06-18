@@ -6,6 +6,7 @@ import dev.thallys.ms.carrinho.service.CartService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 import java.util.List;
@@ -30,9 +31,10 @@ public class CartResource {
     }
 
     @PUT
-    @Path("/update/{id}")
-    public CartItem updateItem(@PathParam("id") Long itemId, @QueryParam("quantity") int quantity) {
-        return cartService.updateItem(itemId, quantity);
+    @Path("/{itemId}")
+    public Response updateItem(@PathParam("itemId") Long itemId, CartItemDTO updateDTO) {
+        CartItem updatedItem = cartService.updateItem(itemId, updateDTO.getQuantity());
+        return Response.noContent().build();
     }
 
     @DELETE
