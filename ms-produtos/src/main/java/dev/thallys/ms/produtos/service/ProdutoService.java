@@ -6,6 +6,7 @@ import dev.thallys.ms.produtos.mapper.ProdutoMapper;
 import dev.thallys.ms.produtos.repository.ProdutoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
@@ -24,55 +25,52 @@ public class ProdutoService {
     @Inject
     ProdutoMapper produtoMapper;
 
-    public List<Produto> findAll() {
-        return produtoRepository.listAll();
+    @Transactional
+    public List<ProdutoDTO> getAll() {
+        return produtoRepository.listAll().stream()
+                .map(produto -> produtoMapper.toDTO(produto))
+                .collect(Collectors.toList());
     }
 
-    public Response getAll() {
-        List<ProdutoDTO> produtos =
-                produtoRepository.listAll().stream()
-                        .map(produto -> produtoMapper.toDTO(produto))
-                        .collect(Collectors.toList());
-        return Response.ok(produtos).build();
-    }
-
-    public Response getById(Long id) {
+    @Transactional
+    public ProdutoDTO getById(Long id) {
         return produtoRepository
                 .findByIdOptional(id)
-                .map(produto -> Response.ok(produtoMapper.toDTO(produto)).build())
-                .orElse(Response.status(NOT_FOUND).build());
+                .map(produtoMapper::toDTO)
+                .orElse(null); // adicionar Excecao para cada
     }
 
-    public Response createProduto(ProdutoDTO dto) {
+    @Transactional
+    public ProdutoDTO createProduto(ProdutoDTO dto) {
         Produto produto = produtoMapper.toEntity(dto);
-        produtoRepository.persist(produto);
+        produtoRepository.persistAndFlush(produto);
         if (produtoRepository.isPersistent(produto)) {
-            return Response.created(URI.create("/produtos/" + produto.getId())).build();
+            return produtoMapper.toDTO(produto);
         }
-        return Response.status(NOT_FOUND).build();
+        return null; // adicionar Excecao para cada
     }
 
-    public Response updateProduto(ProdutoDTO dto) {
-        return produtoRepository
-                .findByIdOptional(dto.getId())
-                .map(
-                        produtoToUpdate -> {
-                            Produto produtoUpdated = produtoMapper.toEntity(dto);
-                            produtoToUpdate.setTitulo(produtoUpdated.getTitulo());
-                            produtoToUpdate.setAutor(produtoUpdated.getAutor());
-                            produtoToUpdate.setDescricao(produtoUpdated.getDescricao());
-                            produtoToUpdate.setPreco(produtoUpdated.getPreco());
-                            produtoToUpdate.setEstoque(produtoUpdated.getEstoque());
-                            produtoToUpdate.setEditora(produtoUpdated.getEditora());
-                            produtoToUpdate.setCategoria(produtoUpdated.getCategoria());
-                            produtoRepository.persist(produtoToUpdate);
-                            return Response.ok(produtoMapper.toDTO(produtoUpdated)).build();
-                        })
-                .orElse(Response.status(NOT_FOUND).build());
+    @Transactional
+    public ProdutoDTO updateProduto(ProdutoDTO dto) {
+        return produtoRepository.findByIdOptional(dto.getId())
+                .map(produtoToUpdate -> {
+                    Produto produtoUpdated = produtoMapper.toEntity(dto);
+                    produtoToUpdate.setTitulo(produtoUpdated.getTitulo());
+                    produtoToUpdate.setAutor(produtoUpdated.getAutor());
+                    produtoToUpdate.setDescricao(produtoUpdated.getDescricao());
+                    produtoToUpdate.setPreco(produtoUpdated.getPreco());
+                    produtoToUpdate.setEstoque(produtoUpdated.getEstoque());
+                    produtoToUpdate.setEditora(produtoUpdated.getEditora());
+                    produtoToUpdate.setCategoria(produtoUpdated.getCategoria());
+                    produtoRepository.persist(produtoToUpdate);
+                    return produtoMapper.toDTO(produtoToUpdate);
+                })
+                .orElse(null); // adicionar Excecao para cada
     }
 
-    public Response deleteById(Long id) {
-        boolean deleted = produtoRepository.deleteById(id);
-        return deleted ? Response.noContent().build() : Response.status(BAD_REQUEST).build();
+    @Transactional
+    public boolean deleteById(Long id) {
+        return produtoRepository.deleteById(id);
     }
+
 }
