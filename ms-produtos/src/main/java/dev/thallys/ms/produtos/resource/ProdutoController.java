@@ -8,7 +8,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +67,38 @@ public class ProdutoController {
             return Response.noContent().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    @GET
+    @Path("/availability")
+    public Response checkProductAvailability(@QueryParam("ids") String ids) {
+        if (ids == null || ids.trim().isEmpty()) {
+            return Response.ok(Collections.emptyMap()).build();
+        }
+
+        List<Long> productIds = Arrays.stream(ids.split(","))
+                .map(String::trim)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+
+        Map<Long, Boolean> availability = produtoService.checkProductAvailability(productIds);
+        return Response.ok(availability).build();
+    }
+
+    @GET
+    @Path("/prices")
+    public Response getProductPrices(@QueryParam("ids") String ids) {
+        if (ids == null || ids.trim().isEmpty()) {
+            return Response.ok(Collections.emptyMap()).build();
+        }
+
+        List<Long> productIds = Arrays.stream(ids.split(","))
+                .map(String::trim)
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+
+        Map<Long, Double> prices = produtoService.getProductPrices(productIds);
+        return Response.ok(prices).build();
     }
 
 }

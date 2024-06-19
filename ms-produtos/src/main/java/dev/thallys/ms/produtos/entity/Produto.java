@@ -19,11 +19,12 @@ public class Produto extends PanacheEntityBase {
     private int estoque;
     private String editora;
     private String categoria;
+    private boolean available;
 
     public Produto() {
     }
 
-    public Produto(Long id, String titulo, String tipoProduto, String autor, String descricao, double preco, int estoque, String editora, String categoria) {
+    public Produto(Long id, String titulo, String tipoProduto, String autor, String descricao, double preco, int estoque, String editora, String categoria, boolean available) {
         this.id = id;
         this.titulo = titulo;
         this.tipoProduto = tipoProduto;
@@ -33,6 +34,7 @@ public class Produto extends PanacheEntityBase {
         this.estoque = estoque;
         this.editora = editora;
         this.categoria = categoria;
+        this.available = available;
     }
 
     public Long getId() {
@@ -107,6 +109,14 @@ public class Produto extends PanacheEntityBase {
         this.tipoProduto = tipoProduto;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     @Override
     public String toString() {
         return "Produto{" +
@@ -119,6 +129,7 @@ public class Produto extends PanacheEntityBase {
                 ", estoque=" + estoque +
                 ", editora='" + editora + '\'' +
                 ", categoria='" + categoria + '\'' +
+                ", available=" + available +
                 '}';
     }
 

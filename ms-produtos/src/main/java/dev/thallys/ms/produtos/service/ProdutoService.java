@@ -7,14 +7,12 @@ import dev.thallys.ms.produtos.repository.ProdutoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.Response;
 
-import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
-import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 @ApplicationScoped
 public class ProdutoService {
@@ -62,6 +60,7 @@ public class ProdutoService {
                     produtoToUpdate.setEstoque(produtoUpdated.getEstoque());
                     produtoToUpdate.setEditora(produtoUpdated.getEditora());
                     produtoToUpdate.setCategoria(produtoUpdated.getCategoria());
+                    produtoToUpdate.setAvailable(produtoUpdated.isAvailable());
                     produtoRepository.persist(produtoToUpdate);
                     return produtoMapper.toDTO(produtoToUpdate);
                 })
@@ -71,6 +70,24 @@ public class ProdutoService {
     @Transactional
     public boolean deleteById(Long id) {
         return produtoRepository.deleteById(id);
+    }
+
+    public Map<Long, Boolean> checkProductAvailability(List<Long> productIds) {
+        Map<Long, Boolean> availabilityMap = new HashMap<>();
+        for (Long id : productIds) {
+            Optional<Produto> produtoOptional = Produto.findByIdOptional(id);
+            availabilityMap.put(id, produtoOptional.map(Produto::isAvailable).orElse(false));
+        }
+        return availabilityMap;
+    }
+
+    public Map<Long, Double> getProductPrices(List<Long> productIds) {
+        Map<Long, Double> pricesMap = new HashMap<>();
+        for (Long id : productIds) {
+            Optional<Produto> produtoOptional = Produto.findByIdOptional(id);
+            pricesMap.put(id, produtoOptional.map(Produto::getPreco).orElse(0.0));
+        }
+        return pricesMap;
     }
 
 }

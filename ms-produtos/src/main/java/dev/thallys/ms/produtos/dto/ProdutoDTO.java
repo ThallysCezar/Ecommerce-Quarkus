@@ -17,6 +17,7 @@ public class ProdutoDTO {
     private int estoque;
     private String editora;
     private String categoria;
+    private boolean available;
 
     public Long getId() {
         return id;
@@ -90,6 +91,14 @@ public class ProdutoDTO {
         this.tipoProduto = tipoProduto;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     @Override
     public String toString() {
         return "ProdutoDTO{" +
@@ -102,6 +111,7 @@ public class ProdutoDTO {
                 ", estoque=" + estoque +
                 ", editora='" + editora + '\'' +
                 ", categoria='" + categoria + '\'' +
+                ", available=" + available +
                 '}';
     }
 
