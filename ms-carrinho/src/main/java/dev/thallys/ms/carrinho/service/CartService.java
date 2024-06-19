@@ -14,6 +14,7 @@ import org.jboss.logging.Logger;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class CartService {
@@ -89,6 +90,13 @@ public class CartService {
         newItem.setUser(user);
         newItem.persist();
         return newItem;
+    }
+
+    public Set<Long> getProductIdsInCart(Long cartId) {
+        // Ajuste na lógica para pegar todos os IDs dos produtos associados ao carrinho
+        return cartRepository.find("cart.id", cartId).stream()
+                .flatMap(cartItem -> cartItem.getProductIds().stream())
+                .collect(Collectors.toSet());
     }
 
 }

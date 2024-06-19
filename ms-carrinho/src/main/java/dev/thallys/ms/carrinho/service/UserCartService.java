@@ -27,6 +27,9 @@ public class UserCartService {
     UserCartRepository userRepository;
 
     @Inject
+    CartRepository cartRepository;
+
+    @Inject
     UserCartMapper userCartMapper;
 
     @Transactional
@@ -70,8 +73,20 @@ public class UserCartService {
     }
 
     @Transactional
-    public void deleteUserCart(Long userId) {
-        userRepository.deleteById(userId);
+    public boolean deleteUserCart(Long userId) {
+        return userRepository.deleteById(userId);
+    }
+
+
+    public boolean userExists(Long userId) {
+        return userRepository.find("id", userId).firstResultOptional().isPresent();
+    }
+
+    public Set<Long> getProductIdsInCart(Long cartId) {
+        List<CartItem> cartItems = cartRepository.find("id", cartId).list();
+        return cartItems.stream()
+                .flatMap(cartItem -> cartItem.getProductIds().stream())
+                .collect(Collectors.toSet());
     }
 
 }
