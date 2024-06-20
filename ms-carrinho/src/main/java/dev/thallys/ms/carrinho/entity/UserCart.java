@@ -14,14 +14,16 @@ public class UserCart extends PanacheEntityBase {
     private Long id;
     private String userName;
     private String email;
+    private boolean isActive;
 
     public UserCart() {
     }
 
-    public UserCart(Long id, String userName, String email) {
+    public UserCart(Long id, String userName, String email, boolean isActive) {
         this.id = id;
         this.userName = userName;
         this.email = email;
+        this.isActive = isActive;
     }
 
     public Long getId() {
@@ -48,12 +50,21 @@ public class UserCart extends PanacheEntityBase {
         this.email = email;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "UserCart{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
+                ", isActive=" + isActive +
                 '}';
     }
 

@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static io.quarkus.hibernate.orm.panache.PanacheEntityBase.list;
+
 @ApplicationScoped
 public class UserCartService {
 
@@ -45,6 +47,16 @@ public class UserCartService {
                 .findByIdOptional(id)
                 .map(userCart -> userCartMapper.toDTO(userCart))
                 .orElse(null);
+    }
+
+    @Transactional
+    public List<UserCart> getActiveUsers() {
+        return userRepository.findActiveUsers();
+    }
+
+    @Transactional
+    public List<UserCart> getInactiveUsers() {
+        return userRepository.findInactiveUsers();
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package dev.thallys.ms.carrinho.resource;
 
 import dev.thallys.ms.carrinho.dto.UserCartDTO;
+import dev.thallys.ms.carrinho.entity.UserCart;
 import dev.thallys.ms.carrinho.service.UserCartService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -46,6 +47,18 @@ public class UserCartResource {
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+    }
+
+    @GET
+    @Path("/active")
+    public List<UserCart> getActiveUsers() {
+        return userCartService.getActiveUsers();
+    }
+
+    @GET
+    @Path("/inactive")
+    public List<UserCart> getInactiveUsers() {
+        return userCartService.getInactiveUsers();
     }
 
     @POST

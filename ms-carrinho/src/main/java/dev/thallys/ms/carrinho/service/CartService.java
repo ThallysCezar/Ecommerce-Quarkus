@@ -11,10 +11,10 @@ import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static io.quarkus.hibernate.orm.panache.PanacheEntityBase.list;
 
 @ApplicationScoped
 public class CartService {
@@ -33,6 +33,20 @@ public class CartService {
 
     public List<CartItem> getAllItems() {
         return cartRepository.listAll();
+    }
+
+    public Map.Entry<Long, Long> getBestSellingProduct() {
+        List<CartItem> cartItems = cartRepository.listAll();
+        Map<Long, Long> productCount = new HashMap<>();
+
+        for (CartItem item : cartItems) {
+            Set<Long> productIds = item.getProductIds();
+            for (Long productId : productIds) {
+                productCount.put(productId, productCount.getOrDefault(productId, 0L) + 1);
+            }
+        }
+
+        return Collections.max(productCount.entrySet(), Map.Entry.comparingByValue());
     }
 
     @Transactional

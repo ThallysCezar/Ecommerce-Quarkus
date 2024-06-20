@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @Path("/carts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,6 +24,12 @@ public class CartResource {
     public Response getAllItems() {
         List<CartItem> cartItems = cartService.getAllItems();
         return Response.ok(cartItems).build();
+    }
+
+    @GET
+    @Path("/best-selling-product")
+    public Map.Entry<Long, Long> getBestSellingProduct() {
+        return cartService.getBestSellingProduct();
     }
 
     @POST
