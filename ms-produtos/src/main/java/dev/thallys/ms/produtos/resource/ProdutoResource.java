@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ProdutoController {
+public class ProdutoResource {
 
     @Inject
     ProdutoService produtoService;
