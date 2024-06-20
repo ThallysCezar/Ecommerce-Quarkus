@@ -9,6 +9,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
+
 @Path("/checkout")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -16,6 +18,13 @@ public class CheckOutResource {
 
     @Inject
     CheckOutService checkOutService;
+
+    @GET
+    @Path("/total-sales")
+    public Response getTotalSales(){
+        Double totalSales = checkOutService.getTotalSales();
+        return Response.ok(totalSales).build();
+    }
 
     @POST
     @Path("/start")

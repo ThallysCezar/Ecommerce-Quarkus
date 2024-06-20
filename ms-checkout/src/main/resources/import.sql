@@ -2,10 +2,10 @@
 CREATE SEQUENCE IF NOT EXISTS order_sequence START 1;
 
 -- Insere dados de pedidos
-INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 29, 109.70, '', '');
-INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 30, 69.80, '', 'CREDITO');
-INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 31, 114.70, '', '');
-INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 32, 114.70, '', '');
+INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 33, 109.70, '', '');
+INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 34, 69.80, '', 'CREDITO');
+INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 35, 114.70, '', '');
+INSERT INTO checkout (id, userid, total, status, formapagamento) VALUES (nextval('order_sequence'), 36, 114.70, '', '');
 
 --46	15(preco: 39,9), 16(preco: 19,9), 17(preco: 49,9)
 --47	17(preco: 49,9), 18(preco: 19,9)

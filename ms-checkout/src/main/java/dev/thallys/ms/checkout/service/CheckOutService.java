@@ -6,10 +6,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
-import org.apache.commons.codec.binary.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +112,14 @@ public class CheckOutService {
             checkout.setStatus("CANCELLED");
             checkout.setFormaPagamento("CANCELLED");
         }
+    }
+
+    @Transactional
+    public Double getTotalSales() {
+        List<CheckOut> checkouts = checkOutRepository.listAll();
+        return checkouts.stream()
+                .mapToDouble(CheckOut::getTotal)
+                .sum();
     }
 
 }
