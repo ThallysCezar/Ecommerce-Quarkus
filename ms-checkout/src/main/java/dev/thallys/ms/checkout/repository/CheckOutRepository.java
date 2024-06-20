@@ -6,4 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CheckOutRepository implements PanacheRepository<CheckOut> {
+    public CheckOut findByUserId(Long userId) {
+        return find("userId", userId).firstResult();
+    }
+
 }

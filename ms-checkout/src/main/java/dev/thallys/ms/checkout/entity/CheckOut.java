@@ -1,10 +1,7 @@
 package dev.thallys.ms.checkout.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class CheckOut extends PanacheEntityBase {
@@ -16,14 +13,18 @@ public class CheckOut extends PanacheEntityBase {
     private Double total;
     private String status;
 
+    @Column(name = "formapagamento")
+    private String formaPagamento;
+
     public CheckOut() {
     }
 
-    public CheckOut(Long id, Long userId, Double total, String status) {
+    public CheckOut(Long id, Long userId, Double total, String status, String formaPagamento) {
         this.id = id;
         this.userId = userId;
         this.total = total;
         this.status = status;
+        this.formaPagamento = formaPagamento;
     }
 
     public Long getId() {
@@ -58,6 +59,14 @@ public class CheckOut extends PanacheEntityBase {
         this.status = status;
     }
 
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
     @Override
     public String toString() {
         return "CheckOut{" +
@@ -65,6 +74,7 @@ public class CheckOut extends PanacheEntityBase {
                 ", userId=" + userId +
                 ", total=" + total +
                 ", status='" + status + '\'' +
+                ", formaPagamento='" + formaPagamento + '\'' +
                 '}';
     }
 

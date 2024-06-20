@@ -1,6 +1,7 @@
 package dev.thallys.ms.checkout.resource;
 
 import dev.thallys.ms.checkout.entity.CheckOut;
+import dev.thallys.ms.checkout.entity.CompletedCheckOutRequest;
 import dev.thallys.ms.checkout.entity.StartCheckOutRequest;
 import dev.thallys.ms.checkout.service.CheckOutService;
 import jakarta.inject.Inject;
@@ -19,8 +20,11 @@ public class CheckOutResource {
     @POST
     @Path("/start")
     public Response iniciarCheckout(StartCheckOutRequest request) {
-        CheckOut checkout = checkOutService.iniciarCheckout(request.userId);
-        return Response.status(Response.Status.CREATED).entity(checkout).build();
+        CheckOut updatedCheckout = checkOutService.iniciarCheckout(request.getUserId());
+        if (updatedCheckout == null) {
+            throw new WebApplicationException("Checkout not found", 404);
+        }
+        return Response.status(Response.Status.OK).entity(updatedCheckout).build();
     }
 
     @GET
@@ -29,14 +33,14 @@ public class CheckOutResource {
         return checkOutService.obterCheckoutPorId(id);
     }
 
-    @PUT
+    @POST
     @Path("/{id}/complete")
-    public Response finalizarCheckout(@PathParam("id") Long id, double total) {
-        CheckOut checkout = checkOutService.finalizarCheckout(id, total);
+    public Response finalizarCheckout(@PathParam("id") Long id, CompletedCheckOutRequest request) {
+        CheckOut checkout = checkOutService.finalizarCheckout(id, request.getTotal(), request.getFormaPagamento());
         return Response.ok(checkout).build();
     }
 
-    @PUT
+    @POST
     @Path("/{id}/cancel")
     public Response cancelarCheckout(@PathParam("id") Long id) {
         checkOutService.cancelarCheckout(id);
