@@ -10,11 +10,11 @@ import java.util.List;
 public class UserCartRepository implements PanacheRepository<UserCart> {
 
     public List<UserCart> findActiveUsers() {
-        return list("active", true);
+        return list("isActive", true);
     }
 
     public List<UserCart> findInactiveUsers() {
-        return list("active", false);
+        return list("isActive", false);
     }
 
 }

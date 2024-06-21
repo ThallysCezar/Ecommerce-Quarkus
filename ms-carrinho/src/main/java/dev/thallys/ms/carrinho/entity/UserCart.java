@@ -1,10 +1,7 @@
 package dev.thallys.ms.carrinho.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class UserCart extends PanacheEntityBase {
@@ -14,6 +11,8 @@ public class UserCart extends PanacheEntityBase {
     private Long id;
     private String userName;
     private String email;
+
+    @Column(name = "isactive")
     private boolean isActive;
 
     public UserCart() {

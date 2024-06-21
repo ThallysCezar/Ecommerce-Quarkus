@@ -1,5 +1,6 @@
 package dev.thallys.ms.carrinho.resource;
 
+import dev.thallys.ms.carrinho.dto.BestSellingProductDTO;
 import dev.thallys.ms.carrinho.dto.CartItemDTO;
 import dev.thallys.ms.carrinho.entity.CartItem;
 import dev.thallys.ms.carrinho.service.CartService;
@@ -28,8 +29,9 @@ public class CartResource {
 
     @GET
     @Path("/best-selling-product")
-    public Map.Entry<Long, Long> getBestSellingProduct() {
-        return cartService.getBestSellingProduct();
+    public Response getBestSellingProduct() {
+        BestSellingProductDTO bestSellingProductDTO = cartService.getBestSellingProduct();
+        return Response.ok(bestSellingProductDTO).build();
     }
 
     @POST

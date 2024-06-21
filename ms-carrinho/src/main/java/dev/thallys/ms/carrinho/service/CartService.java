@@ -1,5 +1,6 @@
 package dev.thallys.ms.carrinho.service;
 
+import dev.thallys.ms.carrinho.dto.BestSellingProductDTO;
 import dev.thallys.ms.carrinho.dto.ProdutoDTO;
 import dev.thallys.ms.carrinho.entity.CartItem;
 import dev.thallys.ms.carrinho.entity.UserCart;
@@ -35,7 +36,7 @@ public class CartService {
         return cartRepository.listAll();
     }
 
-    public Map.Entry<Long, Long> getBestSellingProduct() {
+    public BestSellingProductDTO getBestSellingProduct() {
         List<CartItem> cartItems = cartRepository.listAll();
         Map<Long, Long> productCount = new HashMap<>();
 
@@ -46,7 +47,8 @@ public class CartService {
             }
         }
 
-        return Collections.max(productCount.entrySet(), Map.Entry.comparingByValue());
+        Map.Entry<Long, Long> maxEntry = Collections.max(productCount.entrySet(), Map.Entry.comparingByValue());
+        return new BestSellingProductDTO(maxEntry.getKey(), maxEntry.getValue());
     }
 
     @Transactional
