@@ -9,7 +9,6 @@ import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +43,6 @@ public class CheckOutService {
         }
 
         LOG.info("Usuário não existente, no ms-checkout, com o id: " + userId + ", criando um novo checkout...");
-        // Verifica se o usuário existe no ms-carrinho
         if (!cartClient.userExists(userId)) {
             throw new WebApplicationException("User not found", 404);
         }
@@ -77,11 +75,9 @@ public class CheckOutService {
     public CheckOut finalizarCheckout(Long id, double total, String formaPagamento) {
         CheckOut checkout = checkOutRepository.findById(id);
         if (checkout == null) {
-            // Caso não encontre o checkout, você pode lançar uma exceção
             throw new WebApplicationException("Checkout not found");
         }
 
-        // Definir a forma de pagamento com base no parâmetro formaPagamento
         if (formaPagamento == null || formaPagamento.isEmpty() || formaPagamento.isBlank()) {
             checkout.setFormaPagamento("PIX");
         } else if (formaPagamento.equalsIgnoreCase("pix")) {
@@ -93,11 +89,9 @@ public class CheckOutService {
         } else if (formaPagamento.equalsIgnoreCase("boleto")) {
             checkout.setFormaPagamento("BOLETO");
         } else {
-            // Caso o parâmetro formaPagamento seja inválido, você pode lançar uma exceção
             throw new IllegalArgumentException("Invalid payment method");
         }
 
-        // Atualizar o status, o total e a forma de pagamento do checkout
         checkout.setStatus("COMPLETED");
         checkout.setTotal(total);
         checkOutRepository.persistAndFlush(checkout);
