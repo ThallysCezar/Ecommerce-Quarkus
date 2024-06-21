@@ -10,9 +10,9 @@
     <file type="Quarkus" url="file://$PROJECT_DIR$/../ms-produtos" />
     <file type="Quarkus" url="file://$PROJECT_DIR$/ms-carrinho" />
     <file type="Quarkus" url="file://$PROJECT_DIR$/ms-checkout" />
+    <file type="Quarkus" url="file://$PROJECT_DIR$/ms-comunication" />
     <file type="Quarkus" url="file://$PROJECT_DIR$/ms-config" />
     <file type="Quarkus" url="file://$PROJECT_DIR$/ms-dashboard" />
-    <file type="Quarkus" url="file://$PROJECT_DIR$/ms-pagamento" />
     <file type="Quarkus" url="file://$PROJECT_DIR$/ms-produtos" />
   </component>
   <component name="MavenProjectsManager">

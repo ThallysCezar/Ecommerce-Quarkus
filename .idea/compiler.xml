@@ -9,19 +9,21 @@
         <module name="ms-produtos" />
         <module name="ms-config" />
         <module name="ms-checkout" />
-        <module name="ms-pagamento" />
         <module name="ms-dashboard" />
         <module name="ms-carrinho" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ms-comunication" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ms-carrinho" options="-parameters" />
       <module name="ms-checkout" options="-parameters" />
+      <module name="ms-comunication" options="-parameters" />
       <module name="ms-config" options="-parameters" />
       <module name="ms-dashboard" options="-parameters" />
-      <module name="ms-pagamento" options="-parameters" />
       <module name="ms-produtos" options="-parameters" />
     </option>
   </component>
