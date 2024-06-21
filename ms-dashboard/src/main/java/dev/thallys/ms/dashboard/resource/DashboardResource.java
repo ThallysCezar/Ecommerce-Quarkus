@@ -1,5 +1,9 @@
 package dev.thallys.ms.dashboard.resource;
 
+import dev.thallys.ms.dashboard.dto.ActiveUsersDTO;
+import dev.thallys.ms.dashboard.dto.BestSellingProductDTO;
+import dev.thallys.ms.dashboard.dto.InactiveUsersDTO;
+import dev.thallys.ms.dashboard.dto.TotalSalesDTO;
 import dev.thallys.ms.dashboard.entity.Cart;
 import dev.thallys.ms.dashboard.service.DashboardService;
 import jakarta.inject.Inject;
@@ -24,28 +28,28 @@ public class DashboardResource {
     @GET
     @Path("/active-users")
     public Response getActiveUsers() {
-        List<Cart> activeUsers = dashboardService.getActiveUsers();
+        ActiveUsersDTO activeUsers = dashboardService.getActiveUsers();
         return Response.ok(activeUsers).build();
     }
 
     @GET
     @Path("/inactive-users")
     public Response getInactiveUsers() {
-        List<Cart> inactiveUsers = dashboardService.getInactiveUsers();
+        InactiveUsersDTO inactiveUsers = dashboardService.getInactiveUsers();
         return Response.ok(inactiveUsers).build();
     }
 
     @GET
     @Path("/best-selling-product")
     public Response getBestSellingProduct() {
-        Map.Entry<Long, Long> bestSellingProduct = dashboardService.getBestSellingProduct();
+        BestSellingProductDTO bestSellingProduct = dashboardService.getBestSellingProduct();
         return Response.ok(bestSellingProduct).build();
     }
 
     @GET
     @Path("/total-sales")
     public Response getTotalSales() {
-        Double totalSales = dashboardService.getTotalSales();
+        TotalSalesDTO totalSales = dashboardService.getTotalSales();
         return Response.ok(totalSales).build();
     }
 

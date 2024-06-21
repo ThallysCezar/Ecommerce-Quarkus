@@ -10,6 +10,6 @@ public interface CheckOutClient {
 
     @GET
     @Path("/total-sales")
-    Void getTotalSales();
+    Double getTotalSales();
 
 }
