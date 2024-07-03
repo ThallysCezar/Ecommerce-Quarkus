@@ -11,20 +11,20 @@ INSERT INTO usercart (id, username, email, isactive) VALUES (nextval('user_cart_
 INSERT INTO usercart (id, username, email, isactive) VALUES (nextval('user_cart_sequence'), 'usuario4', 'usuario4@email.com', true);
 
 -- Tabela cartitem
-INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 33, 5);
-INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 34, 3);
-INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 35, 6);
-INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 36, 5);
+INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 45, 5);
+INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 46, 3);
+INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 47, 6);
+INSERT INTO cartitem (id, usercart_id, quantity) VALUES (nextval('cart_item_sequence'), 48, 5);
 
 -- Tabela cart_item_product_ids
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (54, 30);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (54, 31);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (54, 32);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (55, 32);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (55, 33);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (56, 34);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (56, 35);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (56, 36);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (57, 32);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (57, 37);
-INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (57, 42);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (66, 30);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (66, 31);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (66, 32);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (67, 32);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (67, 33);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (68, 34);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (68, 35);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (68, 36);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (69, 32);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (69, 37);
+INSERT INTO cart_item_product_ids (cartitem_id, product_id) VALUES (69, 42);
