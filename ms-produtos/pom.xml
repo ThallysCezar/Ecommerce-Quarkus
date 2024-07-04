@@ -77,6 +77,11 @@
       <version>1.5.5.Final</version>
       <scope>provided</scope>
     </dependency>
+    <!-- Flyway specific dependencies -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-flyway</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
